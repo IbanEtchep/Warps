@@ -1,0 +1,13 @@
+name: Warps
+version: ${project.version}
+main: fr.iban.warps.Warps
+api-version: 1.16
+prefix: Warps
+depend: [ Vault, Claims ]
+authors: [ Iban ]
+description: Warps players
+
+commands:
+  pwarp:
+    aliases: [ pw , warp]
+  warps:
