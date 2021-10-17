@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -68,6 +69,13 @@ public class HeadUtils {
     }
     
     public static ItemStack getPlayerHead(UUID uuid) {
-    	return getHead(getHeadValue(Bukkit.getOfflinePlayer(uuid).getName()));
+    	ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+    	String value = getHeadValue(Bukkit.getOfflinePlayer(uuid).getName());
+    	if(value == null) {
+    		System.out.println("null value");
+    		return head;
+    	}else {
+        	return getHead(value);
+    	}
     }
 }

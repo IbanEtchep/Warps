@@ -34,6 +34,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/iban/Documents/Développement/IdeaProjects/Claims/target/Claims-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/Lands/target/Lands-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import fr.iban.warps.Warps;
+import fr.iban.warps.WarpsPlugin;
 
 public class PlayerWarpFileUtility {
 	
@@ -62,11 +62,11 @@ public class PlayerWarpFileUtility {
 	 */
 	public File getFile() {
 		if(file == null) {
-			this.file = new File(Warps.getInstance().getDataFolder() + "/pwarps", uuid + ".yml");
+			this.file = new File(WarpsPlugin.getInstance().getDataFolder() + "/pwarps", uuid + ".yml");
 			if(!this.file.exists()) {
 				try {
 					if(this.file.createNewFile()) {
-						Warps.getInstance().getLogger().log(Level.INFO, "Création du fichier" + file.getName());
+						WarpsPlugin.getInstance().getLogger().log(Level.INFO, "Création du fichier" + file.getName());
 					}
 				}catch (IOException e) {
 					e.printStackTrace();
