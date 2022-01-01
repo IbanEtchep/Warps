@@ -180,22 +180,25 @@ public class PlayerWarpCMD implements CommandExecutor, TabCompleter{
 					break;
 				case "visit":
 					if(args.length == 2) {
-						@SuppressWarnings("deprecation")
-						OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
-						PlayerWarp twarp = manager.getPlayerWarp(target.getUniqueId());
-						if(twarp != null) {
-							if(twarp.isOpened()) {
-								manager.teleport(player, twarp);
-							}else {
-								if(player.hasPermission("spartacube.warps.bypassclosed")) {
-									player.sendMessage("§aCe warp est fermé mais vous avez bypassé la fermeture !");
+						OfflinePlayer target = Bukkit.getOfflinePlayerIfCached(args[1]);
+						if(target != null){
+							PlayerWarp twarp = manager.getPlayerWarp(target.getUniqueId());
+							if(twarp != null) {
+								if(twarp.isOpened()) {
 									manager.teleport(player, twarp);
 								}else {
-									player.sendMessage("§cCe warp est fermé !");
+									if(player.hasPermission("spartacube.warps.bypassclosed")) {
+										player.sendMessage("§aCe warp est fermé mais vous avez bypassé la fermeture !");
+										manager.teleport(player, twarp);
+									}else {
+										player.sendMessage("§cCe warp est fermé !");
+									}
 								}
+							}else {
+								player.sendMessage("§cCe joueur n'a pas de warp.");
 							}
-						}else {
-							player.sendMessage("§cCe joueur n'a pas de warp.");
+						}else{
+							player.sendMessage("§cCe joueur n'a jamais joué sur le serveur.");
 						}
 
 					}

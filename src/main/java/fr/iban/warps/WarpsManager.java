@@ -74,6 +74,9 @@ public class WarpsManager {
 				pwarps.put(warp.getOwner(), warp);
 			});
 			plugin.getLogger().info(warps.size() + " warps joueurs chargés en " + (System.currentTimeMillis() - now) + " ms.");
+		}).exceptionally(e -> {
+			e.printStackTrace();
+			return null;
 		});
 		plugin.getLogger().info("Chargement des warps.");
 		getWarpsAsync().thenAccept(w -> {
@@ -129,9 +132,8 @@ public class WarpsManager {
 		if(pwarps.containsKey(uuid)) {
 			pwarps.remove(uuid);
 		}
-		future(() -> {
-			return storage.getPlayerWarp(uuid);
-		}).thenAccept(pwarp -> {
+		future(() -> storage.getPlayerWarp(uuid))
+				.thenAccept(pwarp -> {
 			if(pwarp != null) {
 				pwarps.put(uuid, pwarp);
 			}
@@ -142,9 +144,8 @@ public class WarpsManager {
 		if(warps.containsKey(id)) {
 			warps.remove(id);
 		}
-		future(() -> {
-			return storage.getWarp(id);
-		}).thenAccept(warp -> {
+		future(() -> storage.getWarp(id))
+				.thenAccept(warp -> {
 			if(warp != null) {
 				warps.put(id, warp);
 			}
@@ -154,7 +155,7 @@ public class WarpsManager {
 	public void createWarp(Warp warp) {
 		future(() -> storage.addWarp(warp)).thenRunAsync(() -> {
 			if(warp instanceof PlayerWarp) {
-				PlayerWarp pw = (PlayerWarp)warp;
+				PlayerWarp pw = storage.getPlayerWarp(((PlayerWarp) warp).getOwner());
 				pwarps.put(pw.getOwner(), pw);
 			}else {
 				Warp w = storage.getSystemWarp(warp.getName());
@@ -189,9 +190,9 @@ public class WarpsManager {
 		CoreBukkitPlugin core = CoreBukkitPlugin.getInstance();
 		if(warp instanceof PlayerWarp) {
 			PlayerWarp pwarp = (PlayerWarp)warp;
-			plugin.getWarpSyncTopic().publish(new WarpSyncMessage(true, core.getServerName() , warp.getId(), pwarp.getOwner()));
+			core.getRedisClient().getTopic("SyncWarp").publishAsync(new WarpSyncMessage(true, core.getServerName() , warp.getId(), pwarp.getOwner()));
 		}else {
-			plugin.getWarpSyncTopic().publish(new WarpSyncMessage(false, core.getServerName() , warp.getId(), null));
+			core.getRedisClient().getTopic("SyncWarp").publishAsync(new WarpSyncMessage(false, core.getServerName() , warp.getId(), null));
 		}
 	}
 

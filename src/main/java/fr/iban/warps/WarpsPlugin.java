@@ -1,5 +1,6 @@
 package fr.iban.warps;
 
+import fr.iban.warps.utils.WarpSyncMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,9 +19,11 @@ import fr.iban.warps.storage.SqlTables;
 public final class WarpsPlugin extends JavaPlugin {
 	
 	private static WarpsPlugin instance;
-	
+
 	private WarpsManager warpManager;
-	private RTopic<Object> warpSyncTopic;
+
+    private RTopic<WarpSyncMessage> warpSyncTopic;
+    private WarpSyncListener warpSyncListener;
 			
     @Override
     public void onEnable() {
@@ -38,20 +41,22 @@ public final class WarpsPlugin extends JavaPlugin {
         getCommand("warps").setTabCompleter(new WarpsCMD(this));
         getCommand("systemwarp").setExecutor(new SystemWarpCMD(this));
         getCommand("marché").setExecutor(new MarketCMD());
-        warpSyncTopic = CoreBukkitPlugin.getInstance().getRedisClient().getTopic("SyncWarp");
-        warpSyncTopic.addListener(new WarpSyncListener(warpManager));
-
+		warpSyncTopic = CoreBukkitPlugin.getInstance().getRedisClient().getTopic("SyncWarp");
+        warpSyncListener = new WarpSyncListener(warpManager);
+        warpSyncTopic.addListener(warpSyncListener);
     }
 
-	public static WarpsPlugin getInstance() {
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        warpSyncTopic.removeListener(warpSyncListener);
+    }
+
+    public static WarpsPlugin getInstance() {
 		return instance;
 	}
 
 	public WarpsManager getWarpManager() {
 		return warpManager;
-	}
-	
-	public RTopic<Object> getWarpSyncTopic() {
-		return warpSyncTopic;
 	}
 }
