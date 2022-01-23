@@ -117,15 +117,11 @@ public class WarpsManager {
 	}
 
 	public CompletableFuture<List<PlayerWarp>> getPlayersWarpsAsync() {
-		return future(() -> {
-			return storage.getPlayersWarps();
-		});
+		return future(() -> storage.getPlayersWarps());
 	}
 
 	public CompletableFuture<List<Warp>> getWarpsAsync() {
-		return future(() -> {
-			return storage.getWarps();
-		});
+		return future(() -> storage.getWarps());
 	}
 
 	public void updateWarp(UUID uuid) {
