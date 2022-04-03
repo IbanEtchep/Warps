@@ -22,7 +22,7 @@ public final class WarpsPlugin extends JavaPlugin {
 
 	private WarpsManager warpManager;
 
-    private RTopic<WarpSyncMessage> warpSyncTopic;
+    private RTopic warpSyncTopic;
     private WarpSyncListener warpSyncListener;
 			
     @Override
@@ -43,7 +43,7 @@ public final class WarpsPlugin extends JavaPlugin {
         getCommand("marché").setExecutor(new MarketCMD());
 		warpSyncTopic = CoreBukkitPlugin.getInstance().getRedisClient().getTopic("SyncWarp");
         warpSyncListener = new WarpSyncListener(warpManager);
-        warpSyncTopic.addListener(warpSyncListener);
+        warpSyncTopic.addListener(WarpSyncMessage.class, warpSyncListener);
     }
 
     @Override
