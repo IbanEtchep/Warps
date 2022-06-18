@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
+import jdk.internal.joptsimple.internal.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -196,7 +196,7 @@ public class MainWarpsMenu extends Menu {
 					.setName(warp.getName())
 					.setLore(splitString(warp.getDesc(), 32))
 					.addLore("§8Propriétaire : §7" + (Bukkit.getOfflinePlayer(warp.getOwner()).hasPlayedBefore() ? Bukkit.getOfflinePlayer(warp.getOwner()).getName() : "Inconnu"))
-					.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : StringUtils.join(warp.getTags(), ", ")))
+					.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : Strings.join(warp.getTags(), ", ")))
 					.addLore("§8J'aimes : §7" + warp.getUpVotesIn(time) + "§4 ❤")
 					.build();
 		});
@@ -208,7 +208,7 @@ public class MainWarpsMenu extends Menu {
 				.setName(warp.getName())
 				.setLore(splitString(warp.getDesc(), 32))
 				.addLore("§8Propriétaire : §7" + (Bukkit.getOfflinePlayer(warp.getOwner()).hasPlayedBefore() ? Bukkit.getOfflinePlayer(warp.getOwner()).getName() : "Inconnu"))
-				.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : StringUtils.join(warp.getTags(), ", ")))
+				.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : Strings.join(warp.getTags(), ", ")))
 				.addLore("§8J'aimes : §7--§4 ❤")
 				.build();
 	}

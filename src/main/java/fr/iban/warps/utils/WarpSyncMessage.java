@@ -5,17 +5,12 @@ import java.util.UUID;
 public class WarpSyncMessage {
 	
 	private boolean playerWarp;
-	private String senderServer;
 	private int id;
 	private UUID uuid;
 	
-	public WarpSyncMessage() {}
-	
-	
-	public WarpSyncMessage(boolean playerWarp, String senderServer, int id, UUID uuid) {
+	public WarpSyncMessage(boolean playerWarp, int id, UUID uuid) {
 		super();
 		this.playerWarp = playerWarp;
-		this.senderServer = senderServer;
 		this.id = id;
 		this.uuid = uuid;
 	}
@@ -27,14 +22,6 @@ public class WarpSyncMessage {
 	
 	public void setPlayerWarp(boolean playerWarp) {
 		this.playerWarp = playerWarp;
-	}
-	
-	public String getSenderServer() {
-		return senderServer;
-	}
-	
-	public void setSenderServer(String senderServer) {
-		this.senderServer = senderServer;
 	}
 	
 	public int getId() {

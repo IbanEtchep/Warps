@@ -9,7 +9,7 @@ import fr.iban.warps.utils.HeadUtils;
 
 public class PlayerWarp extends Warp {
 
-	private UUID owner;
+	private final UUID owner;
 
 	public PlayerWarp(int id, UUID owner, SLocation location, String name, String desc) {
 		super(id, location, name, desc);

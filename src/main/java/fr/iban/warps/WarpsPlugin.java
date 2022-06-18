@@ -1,29 +1,22 @@
 package fr.iban.warps;
 
-import fr.iban.warps.utils.WarpSyncMessage;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.redisson.api.RTopic;
-
-import fr.iban.bukkitcore.CoreBukkitPlugin;
 import fr.iban.warps.commands.MarketCMD;
 import fr.iban.warps.commands.PlayerWarpCMD;
 import fr.iban.warps.commands.SystemWarpCMD;
 import fr.iban.warps.commands.WarpsCMD;
 import fr.iban.warps.listeners.CommandListeners;
 import fr.iban.warps.listeners.TeleportListener;
-import fr.iban.warps.listeners.WarpSyncListener;
+import fr.iban.warps.listeners.CoreMessageListener;
 import fr.iban.warps.storage.SqlTables;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public final class WarpsPlugin extends JavaPlugin {
 	
 	private static WarpsPlugin instance;
 
 	private WarpsManager warpManager;
-
-    private RTopic warpSyncTopic;
-    private WarpSyncListener warpSyncListener;
 			
     @Override
     public void onEnable() {
@@ -32,7 +25,8 @@ public final class WarpsPlugin extends JavaPlugin {
     	
     	PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new CommandListeners(), this);
-        pm.registerEvents(new TeleportListener(getWarpManager()), instance);
+        pm.registerEvents(new TeleportListener(this), this);
+        pm.registerEvents(new CoreMessageListener(warpManager), this);
         
         SqlTables.createTables();
         getCommand("pwarp").setExecutor(new PlayerWarpCMD(warpManager));
@@ -41,15 +35,11 @@ public final class WarpsPlugin extends JavaPlugin {
         getCommand("warps").setTabCompleter(new WarpsCMD(this));
         getCommand("systemwarp").setExecutor(new SystemWarpCMD(this));
         getCommand("marché").setExecutor(new MarketCMD());
-		warpSyncTopic = CoreBukkitPlugin.getInstance().getRedisClient().getTopic("SyncWarp");
-        warpSyncListener = new WarpSyncListener(warpManager);
-        warpSyncTopic.addListener(WarpSyncMessage.class, warpSyncListener);
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
-        warpSyncTopic.removeListener(warpSyncListener);
     }
 
     public static WarpsPlugin getInstance() {

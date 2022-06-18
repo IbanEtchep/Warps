@@ -12,11 +12,12 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import fr.iban.bukkitcore.CoreBukkitPlugin;
+import fr.iban.bukkitcore.manager.AccountManager;
 import fr.iban.common.data.Account;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import fr.iban.common.data.AccountProvider;
 import fr.iban.common.data.sql.DbAccess;
 import fr.iban.common.teleport.SLocation;
 import fr.iban.warps.objects.PlayerWarp;
@@ -72,10 +73,10 @@ public class Storage {
 						
 						pwarp.setOpened(isOpened);
 						pwarp.setTags(getTags(id, connection));
-						pwarp.setVotes(getVotes(id, connection));	
-						
-						AccountProvider accountProvider = new AccountProvider(uuid);
-						Account account = accountProvider.getAccount();
+						pwarp.setVotes(getVotes(id, connection));
+
+						AccountManager accountManager = CoreBukkitPlugin.getInstance().getAccountManager();
+						Account account = accountManager.getAccount(uuid);
 						
 						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
 						if(isOpened && now - account.getLastSeen() > 1296000000L) {

@@ -1,13 +1,12 @@
 package fr.iban.warps.menu;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang.StringUtils;
+import fr.iban.bukkitcore.menu.PaginatedMenu;
+import fr.iban.warps.WarpsManager;
+import fr.iban.warps.objects.PlayerWarp;
+import fr.iban.warps.objects.Warp;
+import fr.iban.warps.utils.ItemBuilder;
+import fr.iban.warps.utils.SortingType;
+import jdk.internal.joptsimple.internal.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,12 +14,12 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import fr.iban.bukkitcore.menu.PaginatedMenu;
-import fr.iban.warps.WarpsManager;
-import fr.iban.warps.objects.PlayerWarp;
-import fr.iban.warps.objects.Warp;
-import fr.iban.warps.utils.ItemBuilder;
-import fr.iban.warps.utils.SortingType;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class WarpsMenu extends PaginatedMenu {
 
@@ -144,7 +143,7 @@ public class WarpsMenu extends PaginatedMenu {
 					.setName(warp.getName())
 					.setLore(splitString(warp.getDesc(), 32))
 					.addLore("§8Propriétaire : §7" + Bukkit.getOfflinePlayer(warp.getOwner()).getName())
-					.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : StringUtils.join(warp.getTags(), ", ")))
+					.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : Strings.join(warp.getTags(), ", ")))
 					.addLore("§8J'aimes : §7" + warp.getUpVotesIn(time) + "§4 ❤")
 					.build();
 		});
@@ -156,7 +155,7 @@ public class WarpsMenu extends PaginatedMenu {
 				.setName(warp.getName())
 				.setLore(splitString(warp.getDesc(), 32))
 				.addLore("§8Propriétaire : §7" + Bukkit.getOfflinePlayer(warp.getOwner()).getName())
-				.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : StringUtils.join(warp.getTags(), ", ")))
+				.addLore("§8Tags : §7" + (warp.getTags().isEmpty() ? "Aucun" : Strings.join(warp.getTags(), ", ")))
 				.addLore("§8J'aimes : §7--§4 ❤")
 				.build();
 	}
