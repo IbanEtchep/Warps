@@ -72,7 +72,6 @@ public class HeadUtils {
     	ItemStack head = new ItemStack(Material.PLAYER_HEAD);
     	String value = getHeadValue(Bukkit.getOfflinePlayer(uuid).getName());
     	if(value == null) {
-    		System.out.println("null value");
     		return head;
     	}else {
         	return getHead(value);

@@ -185,9 +185,9 @@ public class WarpsManager {
         CoreBukkitPlugin core = CoreBukkitPlugin.getInstance();
         if (warp instanceof PlayerWarp) {
             PlayerWarp pwarp = (PlayerWarp) warp;
-            core.getMessagingManager().sendMessageAsync(SYNC_CHANNEL, new WarpSyncMessage(true, warp.getId(), pwarp.getOwner()));
+            core.getMessagingManager().sendMessage(SYNC_CHANNEL, new WarpSyncMessage(true, warp.getId(), pwarp.getOwner()));
         } else {
-            core.getMessagingManager().sendMessageAsync(SYNC_CHANNEL, new WarpSyncMessage(false, warp.getId(), null));
+            core.getMessagingManager().sendMessage(SYNC_CHANNEL, new WarpSyncMessage(false, warp.getId(), null));
         }
     }
 
@@ -208,7 +208,7 @@ public class WarpsManager {
         if (warp instanceof PlayerWarp) {
             PlayerWarp pwarp = (PlayerWarp) warp;
             if (!pwarp.getOwner().equals(player.getUniqueId())) {
-                core.getMessagingManager().sendMessageAsync(TP_WAITING_CHANNEL, new WarpTpMessage(player.getUniqueId(), pwarp.getOwner()));
+                core.getMessagingManager().sendMessage(TP_WAITING_CHANNEL, new WarpTpMessage(player.getUniqueId(), pwarp.getOwner()));
                 addWarpTpWaiting(player.getUniqueId(), pwarp.getOwner());
             }
         }
