@@ -129,22 +129,20 @@ public class WarpsManager {
 
     public void updateWarp(UUID uuid) {
         pwarps.remove(uuid);
-        future(() -> storage.getPlayerWarp(uuid))
-                .thenAccept(pwarp -> {
-                    if (pwarp != null) {
-                        pwarps.put(uuid, pwarp);
-                    }
-                });
+        future(() -> storage.getPlayerWarp(uuid)).thenAccept(pwarp -> {
+            if (pwarp != null) {
+                pwarps.put(uuid, pwarp);
+            }
+        });
     }
 
     public void updateWarp(int id) {
         warps.remove(id);
-        future(() -> storage.getWarp(id))
-                .thenAccept(warp -> {
-                    if (warp != null) {
-                        warps.put(id, warp);
-                    }
-                });
+        future(() -> storage.getWarp(id)).thenAccept(warp -> {
+            if (warp != null) {
+                warps.put(id, warp);
+            }
+        });
     }
 
     public void createWarp(Warp warp) {
@@ -183,8 +181,7 @@ public class WarpsManager {
 
     private void syncWarp(Warp warp) {
         CoreBukkitPlugin core = CoreBukkitPlugin.getInstance();
-        if (warp instanceof PlayerWarp) {
-            PlayerWarp pwarp = (PlayerWarp) warp;
+        if (warp instanceof PlayerWarp pwarp) {
             core.getMessagingManager().sendMessage(SYNC_CHANNEL, new WarpSyncMessage(true, warp.getId(), pwarp.getOwner()));
         } else {
             core.getMessagingManager().sendMessage(SYNC_CHANNEL, new WarpSyncMessage(false, warp.getId(), null));
@@ -217,7 +214,7 @@ public class WarpsManager {
     public void addWarpTpWaiting(UUID uuid, UUID warpOwnerId) {
         warpTpWaiting.put(uuid, warpOwnerId);
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if(warpTpWaiting.containsKey(uuid)) {
+            if (warpTpWaiting.containsKey(uuid)) {
                 if (warpTpWaiting.get(uuid).equals(warpOwnerId)) {
                     warpTpWaiting.remove(uuid);
                 }
