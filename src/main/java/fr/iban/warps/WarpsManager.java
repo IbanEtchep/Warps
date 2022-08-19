@@ -154,7 +154,7 @@ public class WarpsManager {
                 Warp w = storage.getSystemWarp(warp.getName());
                 warps.put(w.getId(), w);
             }
-        });
+        }).thenRun(() -> syncWarp(warp));
     }
 
     public void saveWarp(Warp warp) {
@@ -164,11 +164,6 @@ public class WarpsManager {
     public void addVote(Warp warp, UUID voteur, Vote vote) {
         warp.getVotes().put(voteur.toString(), vote);
         future(() -> storage.vote(warp, voteur, vote)).thenRun(() -> syncWarp(warp));
-    }
-
-    public void removeVote(Warp warp, UUID voteur, Vote vote) {
-        warp.getVotes().put(voteur.toString(), vote);
-        future(() -> storage.unvote(warp, voteur)).thenRun(() -> syncWarp(warp));
     }
 
     public void addTag(Warp warp, String tag) {
@@ -181,8 +176,8 @@ public class WarpsManager {
 
     private void syncWarp(Warp warp) {
         CoreBukkitPlugin core = CoreBukkitPlugin.getInstance();
-        if (warp instanceof PlayerWarp pwarp) {
-            core.getMessagingManager().sendMessage(SYNC_CHANNEL, new WarpSyncMessage(true, warp.getId(), pwarp.getOwner()));
+        if (warp instanceof PlayerWarp playerWarp) {
+            core.getMessagingManager().sendMessage(SYNC_CHANNEL, new WarpSyncMessage(true, warp.getId(), playerWarp.getOwner()));
         } else {
             core.getMessagingManager().sendMessage(SYNC_CHANNEL, new WarpSyncMessage(false, warp.getId(), null));
         }
@@ -190,9 +185,8 @@ public class WarpsManager {
 
     public void deleteWarp(Warp warp) {
         future(() -> storage.deleteWarp(warp)).thenRun(() -> syncWarp(warp));
-        if (warp instanceof PlayerWarp) {
-            PlayerWarp pw = (PlayerWarp) warp;
-            pwarps.remove(pw.getOwner());
+        if (warp instanceof PlayerWarp playerWarp) {
+            pwarps.remove(playerWarp.getOwner());
         } else {
             warps.remove(warp.getId());
         }
@@ -202,11 +196,10 @@ public class WarpsManager {
         CoreBukkitPlugin core = CoreBukkitPlugin.getInstance();
         core.getTeleportManager().teleport(player, warp.getLocation(), 2);
 
-        if (warp instanceof PlayerWarp) {
-            PlayerWarp pwarp = (PlayerWarp) warp;
-            if (!pwarp.getOwner().equals(player.getUniqueId())) {
-                core.getMessagingManager().sendMessage(TP_WAITING_CHANNEL, new WarpTpMessage(player.getUniqueId(), pwarp.getOwner()));
-                addWarpTpWaiting(player.getUniqueId(), pwarp.getOwner());
+        if (warp instanceof PlayerWarp playerWarp) {
+            if (!playerWarp.getOwner().equals(player.getUniqueId())) {
+                core.getMessagingManager().sendMessage(TP_WAITING_CHANNEL, new WarpTpMessage(player.getUniqueId(), playerWarp.getOwner()));
+                addWarpTpWaiting(player.getUniqueId(), playerWarp.getOwner());
             }
         }
     }
