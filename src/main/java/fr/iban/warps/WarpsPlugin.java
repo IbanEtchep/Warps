@@ -70,11 +70,11 @@ public final class WarpsPlugin extends JavaPlugin {
             String value = context.arguments().pop();
             UUID uuid = playerManager.getOfflinePlayerUUID(value);
             if (uuid == null) {
-                throw new CommandErrorException("Le joueur " + value + " n'a jamais joué sur le serveur.");
+                throw new CommandErrorException("Le joueur " + value + " n''a jamais joué sur le serveur.");
             }
             Warp warp = warpManager.getPlayerWarp(uuid);
             if(warp == null) {
-                throw new CommandErrorException("Ce joueur n'a pas de warp.");
+                throw new CommandErrorException("Ce joueur n''a pas de warp.");
             }
             return warp;
         });
