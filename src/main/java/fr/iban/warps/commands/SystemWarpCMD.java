@@ -36,7 +36,7 @@ public class SystemWarpCMD implements CommandExecutor, TabCompleter{
 				}else {
 					player.sendMessage("§cCe warp n'existe pas.");
 				}
-			}else if(args.length >= 2) {
+			}else if(args.length >= 2 && sender.hasPermission("systemwarp.manage")) {
 				if(args[0].equalsIgnoreCase("create")) {
 					String name = args[1];
 					if(manager.getWarp(name) == null){
