@@ -16,7 +16,7 @@ import fr.iban.warps.objects.Warp;
 
 public class SystemWarpCMD implements CommandExecutor, TabCompleter{
 
-	private WarpsManager manager;
+	private final WarpsManager manager;
 
 	public SystemWarpCMD(WarpsPlugin warpsPlugin) {
 		this.manager = warpsPlugin.getWarpManager();
