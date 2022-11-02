@@ -2,6 +2,7 @@ package fr.iban.warps;
 
 import fr.iban.bukkitcore.CoreBukkitPlugin;
 import fr.iban.bukkitcore.manager.BukkitPlayerManager;
+import fr.iban.lands.objects.Land;
 import fr.iban.warps.commands.MarketCMD;
 import fr.iban.warps.commands.PlayerWarpCMD;
 import fr.iban.warps.commands.SystemWarpCMD;
@@ -14,10 +15,12 @@ import fr.iban.warps.storage.SqlTables;
 import fr.iban.warps.utils.TagCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import revxrsal.commands.autocomplete.SuggestionProvider;
 import revxrsal.commands.autocomplete.SuggestionProviderFactory;
+import revxrsal.commands.bukkit.BukkitCommandActor;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 import revxrsal.commands.exception.CommandErrorException;
 
@@ -60,12 +63,11 @@ public final class WarpsPlugin extends JavaPlugin {
             return null;
         });
 
-        commandHandler.getAutoCompleter().registerSuggestionFactory(0,
-                SuggestionProviderFactory.forType(Warp.class,
-                        SuggestionProvider.of(
-                                warpManager.getPlayerWarps().values().stream()
-                                        .filter(Warp::isOpened)
-                                        .map(warp -> playerManager.getName(warp.getOwner())).toList())));
+        commandHandler.getAutoCompleter().registerParameterSuggestions(Warp.class, (args, sender, command) ->
+                warpManager.getPlayerWarps().values().stream()
+                .filter(Warp::isOpened)
+                .map(warp -> playerManager.getName(warp.getOwner())).toList());
+
         commandHandler.registerValueResolver(0, Warp.class, context -> {
             String value = context.arguments().pop();
             UUID uuid = playerManager.getOfflinePlayerUUID(value);
