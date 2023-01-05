@@ -1,19 +1,19 @@
 package fr.iban.warps.utils;
 
-public enum SortingType {
+public enum SortingTime {
 	
 	ALL(1625326740994L),
 	DAY(216000000L),
 	WEEK(604800000L),
 	MONTH(2592000000L);
 	
-	private long time;
+	private final long time;
 
-	private SortingType(long time) {
+	SortingTime(long time) {
 		this.time = time;
 	}
 	
-	public long getTime() {
+	public long getTimeMillis() {
 		return time;
 	}
 }

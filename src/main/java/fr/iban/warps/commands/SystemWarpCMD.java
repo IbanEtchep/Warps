@@ -42,7 +42,7 @@ public class SystemWarpCMD implements CommandExecutor, TabCompleter{
 					if(manager.getWarp(name) == null){
 						StringBuilder bc = new StringBuilder();
 						for (int i = 2; i < args.length; i++) {
-							bc.append(args[i] + " ");
+							bc.append(args[i]).append(" ");
 						}
 						String desc = bc.toString();
 						manager.createWarp(new Warp(0, SLocationUtils.getSLocation(player.getLocation()), name, desc));
@@ -68,7 +68,7 @@ public class SystemWarpCMD implements CommandExecutor, TabCompleter{
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		if(sender instanceof Player && args.length == 1) {
-			return getStartsWithList(manager.getWarps().values().stream().map(warp -> warp.getName()).collect(Collectors.toList()), args[0]);
+			return getStartsWithList(manager.getWarps().values().stream().map(Warp::getName).collect(Collectors.toList()), args[0]);
 		}
 		return null;
 	}

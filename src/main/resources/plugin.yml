@@ -8,6 +8,5 @@ authors: [ Iban ]
 description: Warps players
 
 commands:
-  warps:
   systemwarp:
   marché:

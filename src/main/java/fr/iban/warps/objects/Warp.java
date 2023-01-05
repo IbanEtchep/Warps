@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.iban.common.teleport.SLocation;
 import fr.iban.warps.utils.ChatUtils;
-import fr.iban.warps.utils.SortingType;
+import fr.iban.warps.utils.SortingTime;
 
 public class Warp {
 
@@ -62,42 +62,8 @@ public class Warp {
 	public void setVotes(Map<String, Vote> votes) {
 		this.votes = votes;
 	}
-
-	public int getNote(SortingType sortingType) {
-		int note = 0;
-		if(getVotes().isEmpty()) return note;
-		for(Vote vote: getVotes().values()) {
-			if(System.currentTimeMillis() - vote.getDate() > sortingType.getTime()) continue;
-			note += vote.getVote();
-		}
-		return note;
-	}
-
-	public int getUpVotes() {
-		int votes = 0;
-		if(!getVotes().isEmpty()) {
-			for(Vote vote: getVotes().values()) {
-				if(vote.getVote() == 1) {
-					votes++;
-				}
-			}
-		}
-		return votes;
-	}
-
-//	public int getDownVotes() {
-//		int votes = 0;
-//		if(!getVotes().isEmpty()) {
-//			for(Vote vote: getVotes().values()) {
-//				if(vote.getVote() == -1) {
-//					votes--;
-//				}
-//			}
-//		}
-//		return Math.abs(votes);
-//	}
 	
-	public int getUpVotesIn(long time) {
+	public int getVotesIn(long time) {
 		int votes = 0;
 		if(!getVotes().isEmpty()) {
 			for(Vote vote: getVotes().values()) {
@@ -109,19 +75,6 @@ public class Warp {
 		}
 		return votes;
 	}
-
-//	public int getDownVotesIn(long time) {
-//		int votes = 0;
-//		if(!getVotes().isEmpty()) {
-//			for(Vote vote: getVotes().values()) {
-//				if(vote.getVote() == -1) {
-//					if(System.currentTimeMillis() - vote.getDate() > time) continue;
-//					votes--;
-//				}
-//			}
-//		}
-//		return Math.abs(votes);
-//	}
 
 	public boolean isOpened() {
 		return opened;

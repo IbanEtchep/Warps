@@ -44,8 +44,6 @@ public final class WarpsPlugin extends JavaPlugin {
         pm.registerEvents(new CoreMessageListener(warpManager), this);
 
         SqlTables.createTables();
-        getCommand("warps").setExecutor(new WarpsCMD(this));
-        getCommand("warps").setTabCompleter(new WarpsCMD(this));
         getCommand("systemwarp").setExecutor(new SystemWarpCMD(this));
         getCommand("marché").setExecutor(new MarketCMD());
         registerCommands();
@@ -82,6 +80,7 @@ public final class WarpsPlugin extends JavaPlugin {
         });
 
         commandHandler.register(new PlayerWarpCMD(this));
+        commandHandler.register(new WarpsCMD(this));
         commandHandler.registerBrigadier();
     }
 
