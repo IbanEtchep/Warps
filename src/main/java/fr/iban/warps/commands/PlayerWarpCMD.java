@@ -19,6 +19,7 @@ import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.command.CommandActor;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Command({"pwarp", "warp"})
@@ -219,23 +220,22 @@ public class PlayerWarpCMD {
         }
     }
 
-    @Subcommand("rate")
-    public void rate(Player player, String uuid) {
-        UUID id = UUID.fromString(uuid);
-        PlayerWarp targetWarp = manager.getPlayerWarp(id);
-        if (targetWarp != null) {
+    @Subcommand("like")
+    @Cooldown(value = 10)
+    public void like(Player player, Warp warp) {
+        if(warp instanceof PlayerWarp targetWarp) {
+            if(targetWarp.getOwner().equals(player.getUniqueId())) {
+                player.sendMessage("§cVous ne pouvez pas liker votre propre warp.");
+                return;
+            }
+
             byte note = 1;
             long date = System.currentTimeMillis();
-            if (targetWarp.getVotes().containsKey(uuid.toString())) {
-                Vote vote = targetWarp.getVotes().get(uuid.toString());
+            if (targetWarp.getVotes().containsKey(player.getUniqueId().toString())) {
+                Vote vote = targetWarp.getVotes().get(player.getUniqueId().toString());
                 date = vote.getDate();
                 if (vote.getVote() == 1) {
                     note = 0;
-                }
-                long timeSinceVote = System.currentTimeMillis() - vote.getDate();
-                if (timeSinceVote < 10000) {
-                    player.sendMessage("§cPas si vite ! Vous devez attendre " + (10000 - timeSinceVote) / 1000 + " secondes avant de changer votre vote !.");
-                    return;
                 }
             }
 
@@ -258,6 +258,7 @@ public class PlayerWarpCMD {
             player.sendMessage("§cCe joueur n'a pas de warp !");
         }
     }
+
 
     private boolean exist(Player player, Warp warp) {
         if (warp != null) {

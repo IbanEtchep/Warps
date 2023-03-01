@@ -42,22 +42,29 @@ public class TeleportListener implements Listener {
 
                 player.sendMessage("§aTéléportation au warp : §r" + pwarp.getName());
 
-                player.sendMessage(
-                        new ComponentBuilder("§7§l" + (pwarp.getVotes().containsKey(player.getUniqueId().toString()) && pwarp.getVotes().get(player.getUniqueId().toString()).getVote() == 1 ?
-                                "Vous n'aimez plus ce warp?"
-                                : "Vous aimez ce warp?") + "\n➥ Cliquez sur ")
-                                .append(getVoteComponent(pwarp, player))
-                                .create());
+                boolean likeWarp = pwarp.getVotes().containsKey(uuid.toString()) && pwarp.getVotes().get(uuid.toString()).getVote() == 1;
+                if(player.getName().startsWith(".")) {
+                    player.sendMessage("§7§l" + (likeWarp ?
+                                    "Vous n'aimez plus ce warp? T"
+                                    : "Vous aimez ce warp? Ret") + "\n➥ apez /warp like " + pwarp.getOwnerName());
+                }else{
+                    player.sendMessage(
+                            new ComponentBuilder("§7§l" + (likeWarp ?
+                                    "Vous n'aimez plus ce warp?"
+                                    : "Vous aimez ce warp?") + "\n➥ Cliquez sur ")
+                                    .append(getVoteComponent(pwarp, player, likeWarp))
+                                    .create());
+                }
             }
         }
     }
 
-    private BaseComponent[] getVoteComponent(PlayerWarp warp, Player player) {
+    private BaseComponent[] getVoteComponent(PlayerWarp warp, Player player, boolean like) {
         BaseComponent[] symbol;
-        if (warp.getVotes().containsKey(player.getUniqueId().toString()) && warp.getVotes().get(player.getUniqueId().toString()).getVote() == 1) {
-            symbol = new ComponentBuilder("[JE N'AIME PLUS]").bold(true).color(ChatColor.RED).event(ChatUtils.getShowTextHoverEvent("§cJe n'aime plus ce warp !")).event(new ClickEvent(Action.RUN_COMMAND, "/pwarp rate " + warp.getOwner().toString())).create();
+        if (like) {
+            symbol = new ComponentBuilder("[JE N'AIME PLUS]").bold(true).color(ChatColor.RED).event(ChatUtils.getShowTextHoverEvent("§cJe n'aime plus ce warp !")).event(new ClickEvent(Action.RUN_COMMAND, "/pwarp like " + warp.getOwnerName())).create();
         } else {
-            symbol = new ComponentBuilder("[J'AIME]").bold(true).color(ChatColor.LIGHT_PURPLE).event(ChatUtils.getShowTextHoverEvent("§dJ'aime ce warp !")).event(new ClickEvent(Action.RUN_COMMAND, "/pwarp rate " + warp.getOwner().toString())).create();
+            symbol = new ComponentBuilder("[J'AIME]").bold(true).color(ChatColor.LIGHT_PURPLE).event(ChatUtils.getShowTextHoverEvent("§dJ'aime ce warp !")).event(new ClickEvent(Action.RUN_COMMAND, "/pwarp like " + warp.getOwnerName())).create();
         }
         return new ComponentBuilder().color(ChatColor.GOLD).append(symbol).create();
     }
