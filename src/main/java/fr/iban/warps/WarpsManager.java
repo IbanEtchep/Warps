@@ -19,7 +19,7 @@ import fr.iban.bukkitcore.CoreBukkitPlugin;
 import fr.iban.bukkitcore.utils.SLocationUtils;
 import fr.iban.lands.LandsPlugin;
 import fr.iban.lands.enums.Action;
-import fr.iban.lands.objects.Land;
+import fr.iban.lands.land.Land;
 import fr.iban.warps.objects.PlayerWarp;
 import fr.iban.warps.objects.Vote;
 import fr.iban.warps.objects.Warp;

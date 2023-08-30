@@ -9,9 +9,8 @@ public class MarketCMD implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(sender instanceof Player) {
-			Player player = (Player)sender;
-			player.performCommand("systemwarp marché");
+		if(sender instanceof Player player) {
+			player.performCommand("warp marché");
 		}
 		return false;
 	}

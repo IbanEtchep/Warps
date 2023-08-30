@@ -3,7 +3,7 @@ package fr.iban.warps.commands;
 import fr.iban.bukkitcore.utils.SLocationUtils;
 import fr.iban.lands.LandsPlugin;
 import fr.iban.lands.enums.Action;
-import fr.iban.lands.objects.Land;
+import fr.iban.lands.land.Land;
 import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
 import fr.iban.warps.objects.PlayerWarp;
@@ -12,27 +12,28 @@ import fr.iban.warps.objects.Warp;
 import fr.iban.warps.utils.TagCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.*;
 import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.command.CommandActor;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
-@Command({"pwarp", "warp"})
+@Command({"pwarp", "pw", "playerwarp"})
 public class PlayerWarpCMD {
 
     private final WarpsManager manager;
     private final WarpsPlugin plugin;
-    private final Map<UUID, String> namesCache = new HashMap<>();
-
 
     public PlayerWarpCMD(WarpsPlugin plugin) {
         this.manager = plugin.getWarpManager();
         this.plugin = plugin;
+    }
+
+    @Command({"pwarp", "pw", "playerwarp"})
+    @Default
+    public void playerWarp(CommandActor actor) {
+        help(actor);
     }
 
     @Subcommand("help")
@@ -207,7 +208,7 @@ public class PlayerWarpCMD {
     }
 
     @Subcommand("visit")
-    public void visit(Player player, Warp warp) {
+    public void visit(Player player, PlayerWarp warp) {
         if (warp.isOpened()) {
             manager.teleport(player, warp);
         } else {
@@ -222,40 +223,36 @@ public class PlayerWarpCMD {
 
     @Subcommand("like")
     @Cooldown(value = 10)
-    public void like(Player player, Warp warp) {
-        if(warp instanceof PlayerWarp targetWarp) {
-            if(targetWarp.getOwner().equals(player.getUniqueId())) {
-                player.sendMessage("§cVous ne pouvez pas liker votre propre warp.");
-                return;
-            }
+    public void like(Player player, PlayerWarp targetWarp) {
+        if(targetWarp.getOwner().equals(player.getUniqueId())) {
+            player.sendMessage("§cVous ne pouvez pas liker votre propre warp.");
+            return;
+        }
 
-            byte note = 1;
-            long date = System.currentTimeMillis();
-            if (targetWarp.getVotes().containsKey(player.getUniqueId().toString())) {
-                Vote vote = targetWarp.getVotes().get(player.getUniqueId().toString());
-                date = vote.getDate();
-                if (vote.getVote() == 1) {
-                    note = 0;
-                }
+        byte note = 1;
+        long date = System.currentTimeMillis();
+        if (targetWarp.getVotes().containsKey(player.getUniqueId().toString())) {
+            Vote vote = targetWarp.getVotes().get(player.getUniqueId().toString());
+            date = vote.getDate();
+            if (vote.getVote() == 1) {
+                note = 0;
             }
+        }
 
-            if (note == 1) {
-                player.sendMessage("§aVous avez ajouté un j'aime à ce warp.");
-            } else {
-                player.sendMessage("§cVous n'aimez désormais plus ce warp.");
-            }
-
-            manager.addVote(targetWarp, player.getUniqueId(), new Vote(note, date));
-            Player owner = Bukkit.getPlayer(targetWarp.getOwner());
-            if (owner != null) {
-                if (note == 1) {
-                    owner.sendMessage("§a " + player.getName() + " aime votre warp.");
-                } else {
-                    owner.sendMessage("§c " + player.getName() + " n'aime plus votre warp.");
-                }
-            }
+        if (note == 1) {
+            player.sendMessage("§aVous avez ajouté un j'aime à ce warp.");
         } else {
-            player.sendMessage("§cCe joueur n'a pas de warp !");
+            player.sendMessage("§cVous n'aimez désormais plus ce warp.");
+        }
+
+        manager.addVote(targetWarp, player.getUniqueId(), new Vote(note, date));
+        Player owner = Bukkit.getPlayer(targetWarp.getOwner());
+        if (owner != null) {
+            if (note == 1) {
+                owner.sendMessage("§a " + player.getName() + " aime votre warp.");
+            } else {
+                owner.sendMessage("§c " + player.getName() + " n'aime plus votre warp.");
+            }
         }
     }
 

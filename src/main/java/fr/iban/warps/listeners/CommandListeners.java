@@ -8,14 +8,12 @@ public class CommandListeners implements Listener {
 	
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent e) {
-		if(e.getMessage().equalsIgnoreCase("/warp")) {
-			e.setMessage("/pwarp");
-		}else if(e.getMessage().equalsIgnoreCase("/spawn") || e.getMessage().equalsIgnoreCase("/spoun")) {
-			e.setMessage("/systemwarp spawn");
+		if(e.getMessage().equalsIgnoreCase("/spawn") || e.getMessage().equalsIgnoreCase("/spoun")) {
+			e.setMessage("/warp spawn");
 		}else if(e.getMessage().equalsIgnoreCase("/infos")) {
-			e.setMessage("/systemwarp info");
+			e.setMessage("/warp info");
 		}else if(e.getMessage().equalsIgnoreCase("/arene") || e.getMessage().equalsIgnoreCase("/arène")) {
-			e.setMessage("/systemwarp arene");
+			e.setMessage("/warp arene");
 		}
 	}
 
