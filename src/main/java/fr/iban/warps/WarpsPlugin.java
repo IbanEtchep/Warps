@@ -7,8 +7,8 @@ import fr.iban.warps.commands.PlayerWarpCMD;
 import fr.iban.warps.commands.SystemWarpCMD;
 import fr.iban.warps.commands.WarpsCMD;
 import fr.iban.warps.listeners.CommandListeners;
-import fr.iban.warps.listeners.TeleportListener;
 import fr.iban.warps.listeners.CoreMessageListener;
+import fr.iban.warps.listeners.TeleportListener;
 import fr.iban.warps.objects.PlayerWarp;
 import fr.iban.warps.objects.Warp;
 import fr.iban.warps.storage.SqlTables;
@@ -56,8 +56,8 @@ public final class WarpsPlugin extends JavaPlugin {
 
         commandHandler.getAutoCompleter().registerParameterSuggestions(PlayerWarp.class, (args, sender, command) ->
                 warpManager.getPlayerWarps().values().stream()
-                .filter(Warp::isOpened)
-                .map(warp -> playerManager.getName(warp.getOwner())).toList());
+                        .filter(Warp::isOpened)
+                        .map(warp -> playerManager.getName(warp.getOwner())).toList());
 
         commandHandler.getAutoCompleter().registerParameterSuggestions(Warp.class, (args, sender, command) ->
                 warpManager.getWarps().values().stream().map(Warp::getName).toList());
@@ -71,7 +71,7 @@ public final class WarpsPlugin extends JavaPlugin {
             }
 
             PlayerWarp warp = warpManager.getPlayerWarp(uuid);
-            if(warp == null) {
+            if (warp == null) {
                 throw new CommandErrorException("Ce joueur n''a pas de warp.");
             }
 
@@ -82,7 +82,7 @@ public final class WarpsPlugin extends JavaPlugin {
             String value = context.arguments().pop();
             Warp warp = warpManager.getWarp(value);
 
-            if(warp == null) {
+            if (warp == null) {
                 throw new CommandErrorException("Ce warp n''existe pas.");
             }
 

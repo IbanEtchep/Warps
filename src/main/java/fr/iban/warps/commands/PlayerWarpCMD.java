@@ -3,7 +3,7 @@ package fr.iban.warps.commands;
 import fr.iban.bukkitcore.utils.SLocationUtils;
 import fr.iban.lands.LandsPlugin;
 import fr.iban.lands.enums.Action;
-import fr.iban.lands.land.Land;
+import fr.iban.lands.model.land.Land;
 import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
 import fr.iban.warps.objects.PlayerWarp;
@@ -14,10 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.*;
-import revxrsal.commands.annotation.Optional;
 import revxrsal.commands.command.CommandActor;
-
-import java.util.*;
 
 @Command({"pwarp", "pw", "playerwarp"})
 public class PlayerWarpCMD {
@@ -30,13 +27,8 @@ public class PlayerWarpCMD {
         this.plugin = plugin;
     }
 
-    @Command({"pwarp", "pw", "playerwarp"})
-    @Default
-    public void playerWarp(CommandActor actor) {
-        help(actor);
-    }
-
     @Subcommand("help")
+    @DefaultFor({"pwarp", "pw", "playerwarp"})
     public void help(CommandActor actor) {
         actor.reply("§8Aide pour la commande /pwarp :");
         actor.reply("");
@@ -93,7 +85,7 @@ public class PlayerWarpCMD {
                     player.sendMessage("§cVotre warp a déjà ce tag.");
                 }
             } else {
-                player.sendMessage("§cCe tag n'éxiste pas.");
+                player.sendMessage("§cCe tag n'existe pas.");
             }
         }
     }
@@ -120,7 +112,7 @@ public class PlayerWarpCMD {
         PlayerWarp warp = manager.getPlayerWarp(player.getUniqueId());
 
         if (exist(player, warp)) {
-            Land land = LandsPlugin.getInstance().getLandManager().getLandAt(player.getChunk());
+            Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(player.getChunk());
             if (land.isBypassing(player, Action.SET_WARP)) {
                 warp.setLocation(SLocationUtils.getSLocation(player.getLocation()));
                 manager.saveWarp(warp);
@@ -224,7 +216,7 @@ public class PlayerWarpCMD {
     @Subcommand("like")
     @Cooldown(value = 10)
     public void like(Player player, PlayerWarp targetWarp) {
-        if(targetWarp.getOwner().equals(player.getUniqueId())) {
+        if (targetWarp.getOwner().equals(player.getUniqueId())) {
             player.sendMessage("§cVous ne pouvez pas liker votre propre warp.");
             return;
         }

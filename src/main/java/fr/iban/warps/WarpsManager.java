@@ -1,30 +1,24 @@
 package fr.iban.warps;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-
-import javax.annotation.Nullable;
-
-import fr.iban.warps.utils.WarpTpMessage;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import fr.iban.bukkitcore.CoreBukkitPlugin;
 import fr.iban.bukkitcore.utils.SLocationUtils;
 import fr.iban.lands.LandsPlugin;
 import fr.iban.lands.enums.Action;
-import fr.iban.lands.land.Land;
+import fr.iban.lands.model.land.Land;
 import fr.iban.warps.objects.PlayerWarp;
 import fr.iban.warps.objects.Vote;
 import fr.iban.warps.objects.Warp;
 import fr.iban.warps.storage.Storage;
 import fr.iban.warps.utils.WarpSyncMessage;
+import fr.iban.warps.utils.WarpTpMessage;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 public class WarpsManager {
 
@@ -92,7 +86,7 @@ public class WarpsManager {
 
     public void setPlayerWarp(Player player, String name, @Nullable String desc) {
         UUID uuid = player.getUniqueId();
-        Land land = LandsPlugin.getInstance().getLandManager().getLandAt(player.getChunk());
+        Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(player.getChunk());
         if (land.isBypassing(player, Action.SET_WARP)) {
             if (!getPlayerWarps().containsKey(uuid)) {
                 PlayerWarp warp = new PlayerWarp(-1, uuid, SLocationUtils.getSLocation(player.getLocation()), name, desc);
