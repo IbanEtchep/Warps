@@ -3,10 +3,10 @@ version: ${project.version}
 main: fr.iban.warps.WarpsPlugin
 api-version: 1.16
 prefix: Warps
-depend: [ Vault, Lands , Core ]
+depend: [ Vault, MSLands , Core ]
 authors: [ Iban ]
 description: Warps players
 
 commands:
-  systemwarp:
-  marché:
+    systemwarp:
+    marché:
