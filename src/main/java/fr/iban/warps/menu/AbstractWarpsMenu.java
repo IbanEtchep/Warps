@@ -2,10 +2,10 @@ package fr.iban.warps.menu;
 
 import fr.iban.bukkitcore.menu.PaginatedMenu;
 import fr.iban.warps.WarpsManager;
-import fr.iban.warps.objects.PlayerWarp;
-import fr.iban.warps.objects.Warp;
+import fr.iban.warps.model.PlayerWarp;
+import fr.iban.warps.model.Warp;
 import fr.iban.warps.utils.ItemBuilder;
-import fr.iban.warps.utils.SortingTime;
+import fr.iban.warps.model.enums.SortingTime;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

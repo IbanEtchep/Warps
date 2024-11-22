@@ -3,7 +3,7 @@ package fr.iban.warps.commands;
 import fr.iban.bukkitcore.utils.SLocationUtils;
 import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
-import fr.iban.warps.objects.Warp;
+import fr.iban.warps.model.Warp;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
 import revxrsal.commands.annotation.DefaultFor;

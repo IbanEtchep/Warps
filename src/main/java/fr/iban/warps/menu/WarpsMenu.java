@@ -1,23 +1,15 @@
 package fr.iban.warps.menu;
 
-import fr.iban.bukkitcore.menu.PaginatedMenu;
 import fr.iban.warps.WarpsManager;
-import fr.iban.warps.objects.PlayerWarp;
-import fr.iban.warps.objects.Warp;
-import fr.iban.warps.utils.ItemBuilder;
-import fr.iban.warps.utils.SortingTime;
+import fr.iban.warps.model.PlayerWarp;
+import fr.iban.warps.model.enums.SortingTime;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class WarpsMenu extends AbstractWarpsMenu {
 

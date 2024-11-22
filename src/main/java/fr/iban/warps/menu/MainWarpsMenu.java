@@ -3,11 +3,11 @@ package fr.iban.warps.menu;
 import fr.iban.bukkitcore.utils.Head;
 import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
-import fr.iban.warps.objects.PlayerWarp;
-import fr.iban.warps.objects.Warp;
+import fr.iban.warps.model.PlayerWarp;
+import fr.iban.warps.model.Warp;
 import fr.iban.warps.utils.ItemBuilder;
-import fr.iban.warps.utils.SortingTime;
-import fr.iban.warps.utils.WarpTag;
+import fr.iban.warps.model.enums.SortingTime;
+import fr.iban.warps.model.enums.WarpTag;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.security.PrivateKey;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -40,7 +39,7 @@ public class MainWarpsMenu extends AbstractWarpsMenu {
 		return switch (tag) {
 			case FARM -> "§5Farms des joueurs";
 			case SHOP -> "§5Shops des joueurs";
-			case VILLE -> "§5Villes des joueurs";
+			case CITY -> "§5Villes des joueurs";
 		};
 	}
 
@@ -83,8 +82,8 @@ public class MainWarpsMenu extends AbstractWarpsMenu {
 			}
 			super.open();		
 		}else if(displayNameEquals(item, "§5§lVilles")) {
-			if(tag != WarpTag.VILLE) {
-				tag = WarpTag.VILLE;
+			if(tag != WarpTag.CITY) {
+				tag = WarpTag.CITY;
 			}else {
 				tag = null;
 			}

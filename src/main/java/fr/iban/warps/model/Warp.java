@@ -1,4 +1,4 @@
-package fr.iban.warps.objects;
+package fr.iban.warps.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,11 +9,10 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.iban.common.teleport.SLocation;
 import fr.iban.warps.utils.ChatUtils;
-import fr.iban.warps.utils.SortingTime;
 
 public class Warp {
 
-	private int id;
+	private final int id;
 	private SLocation location;
 	private String name;
 	private String desc = "Pas de description.";
@@ -116,10 +115,8 @@ public class Warp {
 		if (getClass() != obj.getClass())
 			return false;
 		Warp other = (Warp) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+        return id == other.id;
+    }
 	
 	
 

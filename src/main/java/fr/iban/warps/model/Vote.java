@@ -1,4 +1,4 @@
-package fr.iban.warps.objects;
+package fr.iban.warps.model;
 
 public class Vote {
 	

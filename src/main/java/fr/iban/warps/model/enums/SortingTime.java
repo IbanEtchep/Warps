@@ -1,4 +1,4 @@
-package fr.iban.warps.utils;
+package fr.iban.warps.model.enums;
 
 public enum SortingTime {
 	

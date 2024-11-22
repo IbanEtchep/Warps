@@ -5,12 +5,13 @@ import fr.iban.bukkitcore.utils.SLocationUtils;
 import fr.iban.lands.LandsPlugin;
 import fr.iban.lands.enums.Action;
 import fr.iban.lands.model.land.Land;
-import fr.iban.warps.objects.PlayerWarp;
-import fr.iban.warps.objects.Vote;
-import fr.iban.warps.objects.Warp;
+import fr.iban.warps.model.PlayerWarp;
+import fr.iban.warps.model.Vote;
+import fr.iban.warps.model.Warp;
 import fr.iban.warps.storage.Storage;
 import fr.iban.warps.utils.WarpSyncMessage;
 import fr.iban.warps.utils.WarpTpMessage;
+import fr.iban.warps.zmenu.WarpMenuData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -23,23 +24,38 @@ import java.util.concurrent.CompletionException;
 public class WarpsManager {
 
     private final WarpsPlugin plugin;
-    private final Storage storage = new Storage();
+    private final Storage storage;
     private final Map<UUID, PlayerWarp> pwarps = new HashMap<>();
     private final Map<Integer, Warp> warps = new HashMap<>();
     private final Map<UUID, UUID> warpTpWaiting = new HashMap<>();
     private final List<String> tags = Arrays.asList("#shop", "#farm", "#ville", "#maison", "#architecture");
+    private final Map<UUID, WarpMenuData> warpMenuData = new HashMap<>();
+
     public String SYNC_CHANNEL = "WarpSync";
     public String TP_WAITING_CHANNEL = "WarpTpWaiting";
 
 
     public WarpsManager(WarpsPlugin plugin) {
         this.plugin = plugin;
+        this.storage = new Storage(plugin);
         loadWarps();
+    }
+
+    public WarpMenuData getMenuData(Player player) {
+        if(!warpMenuData.containsKey(player.getUniqueId())) {
+            warpMenuData.put(player.getUniqueId(), new WarpMenuData(player));
+        }
+
+        return warpMenuData.get(player.getUniqueId());
     }
 
 
     public Map<UUID, PlayerWarp> getPlayerWarps() {
         return pwarps;
+    }
+
+    public List<PlayerWarp> getOpenedPlayerWarps() {
+        return pwarps.values().stream().filter(PlayerWarp::isOpened).toList();
     }
 
     public List<String> getTags() {

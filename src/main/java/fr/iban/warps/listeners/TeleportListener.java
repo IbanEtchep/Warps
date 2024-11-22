@@ -2,7 +2,7 @@ package fr.iban.warps.listeners;
 
 import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
-import fr.iban.warps.objects.PlayerWarp;
+import fr.iban.warps.model.PlayerWarp;
 import fr.iban.warps.utils.ChatUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;

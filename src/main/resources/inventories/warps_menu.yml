@@ -1,0 +1,50 @@
+name: "&5Warps [%page%/%maxPage%]"
+size: 54
+items:
+  decoration:
+    isPermanent: true
+    item:
+      material: WHITE_STAINED_GLASS_PANE
+      name: "&e"
+    slots:
+      - 0-9
+      - 17-18
+      - 26-27
+      - 35-36
+      - 44-53
+  spawners:
+    isPermanent: true
+    type: PLAYER_WARP_PAGINATION
+    slots:
+      - 10-16
+      - 19-25
+      - 28-34
+      - 37-43
+    item:
+      material: PLAYER_HEAD
+      name: "&e%name%"
+      lore:
+        - "&7%description%"
+        - "&8Propriétaire: &7%owner%"
+        - "&8Tags: &7%tags%"
+        - "&8J'aimes: &7%votes%"
+  filter:
+    slot: 53
+    type: WARP_TAG_FILTER
+    item:
+      material: HOPPER
+      name: '&f&lFiltrer par tag'
+      lore:
+        - '&7➜ [ALL] Tous'
+        - '&7➜ [SHOP] Shops'
+        - '&7➜ [CITY] Villes'
+        - '&7➜ [FARM] Farms'
+  liked_filter:
+    slot: 52
+    type: LIKED_WARP_FILTER
+    item:
+      material: HOPPER
+      name: '&f&lFiltrer par warp aimé'
+      lore:
+        - '&7➜ [FALSE] Désactivé'
+        - '&7➜ [TRUE] Activé'

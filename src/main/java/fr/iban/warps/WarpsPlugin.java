@@ -8,14 +8,19 @@ import fr.iban.warps.commands.SystemWarpCMD;
 import fr.iban.warps.commands.WarpsCMD;
 import fr.iban.warps.listeners.CommandListeners;
 import fr.iban.warps.listeners.CoreMessageListener;
+import fr.iban.warps.listeners.PlayerRespawnListener;
 import fr.iban.warps.listeners.TeleportListener;
-import fr.iban.warps.objects.PlayerWarp;
-import fr.iban.warps.objects.Warp;
+import fr.iban.warps.model.PlayerWarp;
+import fr.iban.warps.model.Warp;
 import fr.iban.warps.storage.SqlTables;
 import fr.iban.warps.utils.TagCompleter;
+import fr.iban.warps.zmenu.ZMenuManager;
+import fr.maxlego08.menu.api.InventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 import revxrsal.commands.exception.CommandErrorException;
 
@@ -26,6 +31,7 @@ public final class WarpsPlugin extends JavaPlugin {
     private static WarpsPlugin instance;
 
     private WarpsManager warpManager;
+    private ZMenuManager zMenuManager;
 
     @Override
     public void onEnable() {
@@ -36,10 +42,19 @@ public final class WarpsPlugin extends JavaPlugin {
         pm.registerEvents(new CommandListeners(), this);
         pm.registerEvents(new TeleportListener(this), this);
         pm.registerEvents(new CoreMessageListener(warpManager), this);
+        pm.registerEvents(new PlayerRespawnListener(this), this);
+
+        this.zMenuManager = new ZMenuManager(this);
+        zMenuManager.loadZMenu();
+        pm.registerEvents(zMenuManager, this);
 
         SqlTables.createTables();
-        getCommand("marché").setExecutor(new MarketCMD());
         registerCommands();
+    }
+
+    @Override
+    public void onDisable() {
+        zMenuManager.unloadZMenu();
     }
 
     private void registerCommands() {
@@ -92,12 +107,13 @@ public final class WarpsPlugin extends JavaPlugin {
         commandHandler.register(new PlayerWarpCMD(this));
         commandHandler.register(new WarpsCMD(this));
         commandHandler.register(new SystemWarpCMD(this));
+        commandHandler.register(new MarketCMD());
         commandHandler.registerBrigadier();
     }
 
-    @Override
-    public void onDisable() {
-        super.onDisable();
+    private <T> @Nullable T getProvider(Class<T> classProvider) {
+        RegisteredServiceProvider<T> provider = Bukkit.getServer().getServicesManager().getRegistration(classProvider);
+        return provider == null ? null : provider.getProvider();
     }
 
     public static WarpsPlugin getInstance() {
@@ -106,5 +122,9 @@ public final class WarpsPlugin extends JavaPlugin {
 
     public WarpsManager getWarpManager() {
         return warpManager;
+    }
+
+    public ZMenuManager getMenuManager() {
+        return zMenuManager;
     }
 }

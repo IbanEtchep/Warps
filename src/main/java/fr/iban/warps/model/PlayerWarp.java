@@ -1,4 +1,4 @@
-package fr.iban.warps.objects;
+package fr.iban.warps.model;
 
 import java.util.UUID;
 
@@ -6,11 +6,9 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import fr.iban.bukkitcore.CoreBukkitPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 
 import fr.iban.common.teleport.SLocation;
-import fr.iban.warps.utils.HeadUtils;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 

@@ -6,9 +6,9 @@ import fr.iban.lands.enums.Action;
 import fr.iban.lands.model.land.Land;
 import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
-import fr.iban.warps.objects.PlayerWarp;
-import fr.iban.warps.objects.Vote;
-import fr.iban.warps.objects.Warp;
+import fr.iban.warps.model.PlayerWarp;
+import fr.iban.warps.model.Vote;
+import fr.iban.warps.model.Warp;
 import fr.iban.warps.utils.TagCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -256,6 +256,11 @@ public class PlayerWarpCMD {
             player.sendMessage("§cVous n'avez pas de warp.");
             return false;
         }
+    }
+
+    @Subcommand("menu")
+    public void openMenu(Player player) {
+        plugin.getMenuManager().openWarpsMainMenu(player);
     }
 
 }
