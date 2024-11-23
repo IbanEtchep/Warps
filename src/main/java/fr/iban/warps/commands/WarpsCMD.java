@@ -12,16 +12,15 @@ import java.util.stream.Collectors;
 
 public class WarpsCMD {
 
-    private final WarpsManager manager;
+    private final WarpsPlugin plugin;
 
     public WarpsCMD(WarpsPlugin plugin) {
-        this.manager = plugin.getWarpManager();
+        this.plugin = plugin;
     }
 
     @Command("warps")
     public void warps(Player player) {
-        new MainWarpsMenu(player, manager, manager.getPlayerWarps().values().stream()
-                .filter(PlayerWarp::isOpened)
-                .collect(Collectors.toList()), SortingTime.ALL).open();
+        plugin.getMenuManager().clearMenuData(player);
+        plugin.getMenuManager().openWarpsMainMenu(player);
     }
 }

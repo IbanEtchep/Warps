@@ -14,16 +14,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class ZMenuManager implements Listener {
 
     private final WarpsPlugin plugin;
     private ButtonManager buttonManager;
     private InventoryManager inventoryManager;
+    private final Map<UUID, WarpMenuData> warpMenuData = new HashMap<>();
 
     private Inventory warpsMainMenu;
-    private NoneLoader playerWarpPaginationLoader;
-    private NoneLoader tagFilterButtonLoader;
-    private NoneLoader likedWarpsFilter;
 
     public ZMenuManager(WarpsPlugin plugin) {
         this.plugin = plugin;
@@ -52,22 +54,16 @@ public class ZMenuManager implements Listener {
     }
 
     public void unloadZMenu() {
-        buttonManager.unregister(playerWarpPaginationLoader);
-        buttonManager.unregister(tagFilterButtonLoader);
-        buttonManager.unregister(likedWarpsFilter);
-
+        plugin.getLogger().info("Unloading ZMenu...");
+        buttonManager.unregisters(plugin);
         inventoryManager.deleteInventories(plugin);
     }
 
     private void registerButtons() {
-        this.playerWarpPaginationLoader = new NoneLoader(plugin, PlayerWarpPaginatedButton.class, "player_warp_pagination");
-        buttonManager.register(playerWarpPaginationLoader);
-
-        this.tagFilterButtonLoader = new NoneLoader(plugin, TagFilterButton.class, "warp_tag_filter");
-        buttonManager.register(tagFilterButtonLoader);
-
-        this.likedWarpsFilter = new NoneLoader(plugin, LikedWarpsFilterButton.class, "liked_warp_filter");
-        this.buttonManager.register(likedWarpsFilter);
+        buttonManager.register(new NoneLoader(plugin, PlayerWarpPaginatedButton.class, "player_warp_pagination"));
+        buttonManager.register(new NoneLoader(plugin, TagFilterButton.class, "warp_tag_filter"));
+        buttonManager.register(new NoneLoader(plugin, LikedWarpsFilterButton.class, "liked_warp_filter"));
+        buttonManager.register(new NoneLoader(plugin, SortingTimeButton.class, "warp_sorting_time"));
     }
 
     private void loadInventories() {
@@ -89,5 +85,17 @@ public class ZMenuManager implements Listener {
 
     public void update(Player player) {
         this.inventoryManager.updateInventory(player);
+    }
+
+    public WarpMenuData getMenuData(Player player) {
+        if(!warpMenuData.containsKey(player.getUniqueId())) {
+            warpMenuData.put(player.getUniqueId(), new WarpMenuData(player));
+        }
+
+        return warpMenuData.get(player.getUniqueId());
+    }
+
+    public void clearMenuData(Player player) {
+        warpMenuData.remove(player.getUniqueId());
     }
 }

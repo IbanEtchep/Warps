@@ -29,7 +29,6 @@ public class WarpsManager {
     private final Map<Integer, Warp> warps = new HashMap<>();
     private final Map<UUID, UUID> warpTpWaiting = new HashMap<>();
     private final List<String> tags = Arrays.asList("#shop", "#farm", "#ville", "#maison", "#architecture");
-    private final Map<UUID, WarpMenuData> warpMenuData = new HashMap<>();
 
     public String SYNC_CHANNEL = "WarpSync";
     public String TP_WAITING_CHANNEL = "WarpTpWaiting";
@@ -40,15 +39,6 @@ public class WarpsManager {
         this.storage = new Storage(plugin);
         loadWarps();
     }
-
-    public WarpMenuData getMenuData(Player player) {
-        if(!warpMenuData.containsKey(player.getUniqueId())) {
-            warpMenuData.put(player.getUniqueId(), new WarpMenuData(player));
-        }
-
-        return warpMenuData.get(player.getUniqueId());
-    }
-
 
     public Map<UUID, PlayerWarp> getPlayerWarps() {
         return pwarps;

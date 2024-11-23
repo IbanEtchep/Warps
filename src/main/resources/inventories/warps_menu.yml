@@ -43,8 +43,19 @@ items:
     slot: 52
     type: LIKED_WARP_FILTER
     item:
-      material: HOPPER
+      material: POPPY
       name: '&f&lFiltrer par warp aimé'
       lore:
         - '&7➜ [FALSE] Désactivé'
         - '&7➜ [TRUE] Activé'
+  sorting_time:
+    slot: 51
+    type: WARP_SORTING_TIME
+    item:
+      material: CLOCK
+      name: '&f&lLes plus likés'
+      lore:
+        - '&7➜ [ALL] Depuis toujours'
+        - '&7➜ [DAY] Aujourd''hui'
+        - '&7➜ [WEEK] Cette semaine'
+        - '&7➜ [MONTH] Ce mois'

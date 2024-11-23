@@ -257,10 +257,4 @@ public class PlayerWarpCMD {
             return false;
         }
     }
-
-    @Subcommand("menu")
-    public void openMenu(Player player) {
-        plugin.getMenuManager().openWarpsMainMenu(player);
-    }
-
 }

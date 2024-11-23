@@ -5,6 +5,7 @@ import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
 import fr.iban.warps.model.PlayerWarp;
 import fr.iban.warps.model.enums.SortingTime;
+import fr.iban.warps.utils.LoreUtils;
 import fr.maxlego08.menu.api.button.PaginateButton;
 import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.menu.button.ZButton;
@@ -20,15 +21,17 @@ public class PlayerWarpPaginatedButton extends ZButton implements PaginateButton
 
     private final WarpsPlugin plugin;
     private final WarpsManager warpsManager;
+    private final ZMenuManager menuManager;
 
     public PlayerWarpPaginatedButton(Plugin plugin) {
         this.plugin = (WarpsPlugin) plugin;
         this.warpsManager = this.plugin.getWarpManager();
+        this.menuManager = this.plugin.getMenuManager();
     }
 
     @Override
     public void onRender(Player player, InventoryDefault inventory) {
-        WarpMenuData warpMenuData = warpsManager.getMenuData(player);
+        WarpMenuData warpMenuData = menuManager.getMenuData(player);
         List<PlayerWarp> warps = warpsManager.getOpenedPlayerWarps();
 
         warps = warps.stream()
@@ -52,7 +55,7 @@ public class PlayerWarpPaginatedButton extends ZButton implements PaginateButton
 
     @Override
     public int getPaginationSize(Player player) {
-        var warpMenuData = plugin.getWarpManager().getMenuData(player);
+        var warpMenuData = menuManager.getMenuData(player);
 
         return plugin.getWarpManager().getOpenedPlayerWarps().stream()
                 .filter(warpMenuData.getWarpFilterPredicate())
@@ -61,14 +64,14 @@ public class PlayerWarpPaginatedButton extends ZButton implements PaginateButton
     }
 
     protected ItemStack getWarpItem(Player player, PlayerWarp warp) {
-        var warpMenuData = plugin.getWarpManager().getMenuData(player);
+        var warpMenuData = menuManager.getMenuData(player);
 
         SortingTime sortingTime = warpMenuData.getSortingTime();
 
         Placeholders placeholders = new Placeholders();
         placeholders.register("owner", warp.getOwnerName());
         placeholders.register("name", warp.getName());
-        placeholders.register("description", warp.getDesc());
+        placeholders.register("description", warp.getDesc() + "[SPLIT:32]");
         placeholders.register("tags", warp.getTags().isEmpty() ? "Aucun" : String.join(", ", warp.getTags()));
         placeholders.register("votes", String.valueOf(warp.getVotesIn(sortingTime.getTimeMillis())));
 
@@ -76,8 +79,9 @@ public class PlayerWarpPaginatedButton extends ZButton implements PaginateButton
 
         ItemStack finalItem = warp.getIcon().clone();
         var meta = finalItem.getItemMeta();
-        meta.lore(itemstack.getItemMeta().lore());
+        meta.lore(LoreUtils.processLoreWithSplit(itemstack.getItemMeta().lore()));
         meta.displayName(itemstack.getItemMeta().displayName());
+
         finalItem.setItemMeta(meta);
 
         return finalItem;

@@ -1,8 +1,7 @@
 package fr.iban.warps.zmenu;
 
-import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
-import fr.iban.warps.model.enums.WarpTag;
+import fr.iban.warps.model.enums.SortingTime;
 import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.menu.button.ZButton;
 import fr.maxlego08.menu.inventory.inventories.InventoryDefault;
@@ -14,14 +13,13 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class TagFilterButton extends ZButton {
+public class SortingTimeButton extends ZButton {
 
     private final WarpsPlugin plugin;
     private final ZMenuManager menuManager;
 
-    public TagFilterButton(Plugin plugin) {
+    public SortingTimeButton(Plugin plugin) {
         this.plugin = (WarpsPlugin) plugin;
         this.menuManager = this.plugin.getMenuManager();
     }
@@ -37,10 +35,10 @@ public class TagFilterButton extends ZButton {
 
         for (int i = 0; i < lore.size(); i++) {
             String line = lore.get(i);
-            for (String choice : getFilterChoices()) {
+            for (String choice : getSortingTimeChoices()) {
                 String tag = "[" + choice + "]";
                 if (line.contains(tag)) {
-                    line = (Objects.equals(getFilterName(warpMenuData.getTagFilter()), choice)) ? line.replace(tag, "§a") : line.replace(tag, "");
+                    line = (getSortingTimeName(warpMenuData.getSortingTime()).equals(choice)) ? line.replace(tag, "§a") : line.replace(tag, "");
                     break;
                 }
             }
@@ -56,45 +54,36 @@ public class TagFilterButton extends ZButton {
     @Override
     public void onClick(Player player, InventoryClickEvent event, InventoryDefault inventory, int slot, Placeholders placeholders) {
         WarpMenuData warpMenuData = menuManager.getMenuData(player);
-        changeFilter(warpMenuData);
+        changeSortingTime(warpMenuData);
         plugin.getMenuManager().update(player);
     }
 
-    private void changeFilter(WarpMenuData warpMenuData) {
-        WarpTag filter = warpMenuData.getTagFilter();
-        int index = getFilterChoices().indexOf(getFilterName(filter));
+    private void changeSortingTime(WarpMenuData warpMenuData) {
+        SortingTime currentSortingTime = warpMenuData.getSortingTime();
+        int index = getSortingTimeChoices().indexOf(getSortingTimeName(currentSortingTime));
         index++;
 
-        if (index >= getFilterChoices().size()) {
+        if (index >= getSortingTimeChoices().size()) {
             index = 0;
         }
 
-        String newFilter = getFilterChoices().get(index);
-        warpMenuData.setTagFilter(getFilter(newFilter));
+        String newSortingTime = getSortingTimeChoices().get(index);
+        warpMenuData.setSortingTime(getSortingTime(newSortingTime));
     }
 
-    private List<String> getFilterChoices() {
+    private List<String> getSortingTimeChoices() {
         List<String> choices = new ArrayList<>();
-        choices.add("ALL");
-
-        for (WarpTag tag : WarpTag.values()) {
-            choices.add(tag.toString());
+        for (SortingTime sortingTime : SortingTime.values()) {
+            choices.add(sortingTime.toString());
         }
-
         return choices;
     }
 
-    private WarpTag getFilter(String filter) {
-        if(filter.equals("ALL")) {
-            return null;
-        }
-        return WarpTag.valueOf(filter);
+    private SortingTime getSortingTime(String sortingTimeStr) {
+        return SortingTime.valueOf(sortingTimeStr);
     }
 
-    private String getFilterName(WarpTag filter) {
-        if(filter == null) {
-            return "ALL";
-        }
-        return filter.toString();
+    private String getSortingTimeName(SortingTime sortingTime) {
+        return sortingTime.toString();
     }
 }
