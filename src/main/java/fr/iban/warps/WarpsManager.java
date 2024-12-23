@@ -11,7 +11,6 @@ import fr.iban.warps.model.Warp;
 import fr.iban.warps.storage.Storage;
 import fr.iban.warps.utils.WarpSyncMessage;
 import fr.iban.warps.utils.WarpTpMessage;
-import fr.iban.warps.zmenu.WarpMenuData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

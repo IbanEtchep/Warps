@@ -6,9 +6,9 @@ import fr.iban.warps.WarpsPlugin;
 import fr.iban.warps.model.Warp;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.DefaultFor;
+import revxrsal.commands.annotation.CommandPlaceholder;
 import revxrsal.commands.annotation.Subcommand;
-import revxrsal.commands.bukkit.BukkitCommandActor;
+import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 @Command({"warp"})
@@ -27,7 +27,7 @@ public class SystemWarpCMD {
     }
 
     @Command("visit")
-    @DefaultFor("warp")
+    @CommandPlaceholder
     public void visit(Player player, Warp warp) {
         manager.teleport(player, warp);
     }

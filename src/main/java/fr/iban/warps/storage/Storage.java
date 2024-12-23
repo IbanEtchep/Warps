@@ -13,8 +13,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 
 import fr.iban.bukkitcore.CoreBukkitPlugin;
-import fr.iban.bukkitcore.manager.AccountManager;
-import fr.iban.common.data.Account;
+import fr.iban.common.model.MSPlayer;
 import fr.iban.warps.WarpsPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -51,8 +50,7 @@ public class Storage {
 		List<PlayerWarp> warps = new ArrayList<>();
 		try(Connection connection = dataSource.getConnection()){
 			try(PreparedStatement ps = connection.prepareStatement(
-					"SELECT * " +
-							"FROM sc_warps JOIN sc_warps_players ON sc_warps.idW=sc_warps_players.idW;")){
+					"SELECT * FROM sc_warps JOIN sc_warps_players ON sc_warps.idW=sc_warps_players.idW;")){
 				//ps.setString(1, CoreBukkitPlugin.getInstance().getServerName());
 				try(ResultSet rs = ps.executeQuery()){
 					while(rs.next()) {
@@ -80,12 +78,10 @@ public class Storage {
 						pwarp.setTags(getTags(id, connection));
 						pwarp.setVotes(getVotes(id, connection));
 
-						AccountManager accountManager = CoreBukkitPlugin.getInstance().getAccountManager();
-						accountManager.loadAccount(uuid);
-						Account account = accountManager.getAccount(uuid);
+						MSPlayer msPlayer = CoreBukkitPlugin.getInstance().getPlayerManager().getOfflinePlayer(uuid);
 
 						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
-						if(isOpened && now - account.getLastSeen() > 1296000000L) {
+						if(isOpened && now - msPlayer.getLastSeenTimestamp() > 1296000000L) {
 							plugin.getLogger().info("[Warps]" + op.getName() + " est inactif depuis plus de 15 jours, son warp a été fermé.");
 							pwarp.setOpened(false);
 							saveWarp(pwarp);

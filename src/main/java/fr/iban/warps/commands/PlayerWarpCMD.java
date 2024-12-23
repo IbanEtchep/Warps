@@ -28,7 +28,7 @@ public class PlayerWarpCMD {
     }
 
     @Subcommand("help")
-    @DefaultFor({"pwarp", "pw", "playerwarp"})
+    @CommandPlaceholder
     public void help(CommandActor actor) {
         actor.reply("§8Aide pour la commande /pwarp :");
         actor.reply("");

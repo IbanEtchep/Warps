@@ -39,7 +39,7 @@ public class PlayerWarp extends Warp {
 	}
 
 	public String getOwnerName() {
-		String name = CoreBukkitPlugin.getInstance().getPlayerManager().getName(owner);
+		String name = CoreBukkitPlugin.getInstance().getPlayerManager().getOfflinePlayer(owner).getName();
 		return name != null ? name : "inconnu";
 	}
 
@@ -62,8 +62,4 @@ public class PlayerWarp extends Warp {
 		PlayerWarp other = (PlayerWarp) obj;
 		return owner.equals(other.owner);
 	}
-	
-	
-	
-	
 }

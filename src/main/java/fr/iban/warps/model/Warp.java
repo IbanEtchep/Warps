@@ -117,7 +117,4 @@ public class Warp {
 		Warp other = (Warp) obj;
         return id == other.id;
     }
-	
-	
-
 }

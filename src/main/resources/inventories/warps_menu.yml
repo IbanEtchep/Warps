@@ -12,7 +12,7 @@ items:
       - 26-27
       - 35-36
       - 44-53
-  spawners:
+  warps:
     isPermanent: true
     type: PLAYER_WARP_PAGINATION
     slots:
