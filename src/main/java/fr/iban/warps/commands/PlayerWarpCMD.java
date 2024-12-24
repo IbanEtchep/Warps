@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.*;
+import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import revxrsal.commands.command.CommandActor;
 
 @Command({"pwarp", "pw", "playerwarp"})
@@ -27,9 +28,13 @@ public class PlayerWarpCMD {
         this.plugin = plugin;
     }
 
-    @Subcommand("help")
     @CommandPlaceholder
-    public void help(CommandActor actor) {
+    public void pwarp(BukkitCommandActor actor) {
+        help(actor);
+    }
+
+    @Subcommand("help")
+    public void help(BukkitCommandActor actor) {
         actor.reply("§8Aide pour la commande /pwarp :");
         actor.reply("");
         actor.reply("§6/pwarp create §f→ créer votre warp.");

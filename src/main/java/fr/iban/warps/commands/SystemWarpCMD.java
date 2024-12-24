@@ -20,14 +20,18 @@ public class SystemWarpCMD {
         this.manager = plugin.getWarpManager();
     }
 
+    @CommandPlaceholder
+    public void warp(Player sender, Warp warp) {
+        visit(sender, warp);
+    }
+
     @Subcommand("help")
     @CommandPermission("systemwarp.admin")
     public void help(BukkitCommandActor actor) {
         actor.reply("warp create/delete nom");
     }
 
-    @Command("visit")
-    @CommandPlaceholder
+    @Subcommand("visit")
     public void visit(Player player, Warp warp) {
         manager.teleport(player, warp);
     }
