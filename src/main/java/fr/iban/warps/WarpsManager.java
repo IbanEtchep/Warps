@@ -193,7 +193,7 @@ public class WarpsManager {
 
     public void teleport(Player player, Warp warp) {
         CoreBukkitPlugin core = CoreBukkitPlugin.getInstance();
-        core.getTeleportManager().teleport(player, warp.getLocation(), 2);
+        core.getTeleportManager().teleport(player, warp.getLocation(), 3);
 
         if (warp instanceof PlayerWarp playerWarp) {
             if (!playerWarp.getOwner().equals(player.getUniqueId())) {

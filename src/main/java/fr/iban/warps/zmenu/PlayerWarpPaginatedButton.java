@@ -7,17 +7,16 @@ import fr.iban.warps.model.PlayerWarp;
 import fr.iban.warps.model.enums.SortingTime;
 import fr.iban.warps.utils.LoreUtils;
 import fr.maxlego08.menu.api.button.PaginateButton;
+import fr.maxlego08.menu.api.engine.InventoryEngine;
+import fr.maxlego08.menu.api.engine.Pagination;
 import fr.maxlego08.menu.api.utils.Placeholders;
-import fr.maxlego08.menu.button.ZButton;
-import fr.maxlego08.menu.inventory.inventories.InventoryDefault;
-import fr.maxlego08.menu.zcore.utils.inventory.Pagination;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 
-public class PlayerWarpPaginatedButton extends ZButton implements PaginateButton {
+public class PlayerWarpPaginatedButton extends PaginateButton {
 
     private final WarpsPlugin plugin;
     private final WarpsManager warpsManager;
@@ -30,7 +29,7 @@ public class PlayerWarpPaginatedButton extends ZButton implements PaginateButton
     }
 
     @Override
-    public void onRender(Player player, InventoryDefault inventory) {
+    public void onRender(Player player, InventoryEngine inventory) {
         WarpMenuData warpMenuData = menuManager.getMenuData(player);
         List<PlayerWarp> warps = warpsManager.getOpenedPlayerWarps();
 

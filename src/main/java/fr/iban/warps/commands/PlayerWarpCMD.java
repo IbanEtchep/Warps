@@ -17,6 +17,8 @@ import revxrsal.commands.annotation.*;
 import revxrsal.commands.bukkit.actor.BukkitCommandActor;
 import revxrsal.commands.command.CommandActor;
 
+import java.util.UUID;
+
 @Command({"pwarp", "pw", "playerwarp"})
 public class PlayerWarpCMD {
 
@@ -221,15 +223,17 @@ public class PlayerWarpCMD {
     @Subcommand("like")
     @Cooldown(value = 10)
     public void like(Player player, PlayerWarp targetWarp) {
-        if (targetWarp.getOwner().equals(player.getUniqueId())) {
+        UUID uniqueId = player.getUniqueId();
+
+        if (targetWarp.getOwner().equals(uniqueId)) {
             player.sendMessage("§cVous ne pouvez pas liker votre propre warp.");
             return;
         }
 
         byte note = 1;
         long date = System.currentTimeMillis();
-        if (targetWarp.getVotes().containsKey(player.getUniqueId().toString())) {
-            Vote vote = targetWarp.getVotes().get(player.getUniqueId().toString());
+        if (targetWarp.getVotes().containsKey(uniqueId.toString())) {
+            Vote vote = targetWarp.getVotes().get(uniqueId.toString());
             date = vote.getDate();
             if (vote.getVote() == 1) {
                 note = 0;
@@ -242,7 +246,7 @@ public class PlayerWarpCMD {
             player.sendMessage("§cVous n'aimez désormais plus ce warp.");
         }
 
-        manager.addVote(targetWarp, player.getUniqueId(), new Vote(note, date));
+        manager.addVote(targetWarp, uniqueId, new Vote(note, date));
         Player owner = Bukkit.getPlayer(targetWarp.getOwner());
         if (owner != null) {
             if (note == 1) {
