@@ -68,6 +68,6 @@ public class WarpMenuData {
     }
 
     public Comparator<Warp> getWarpSortingComparator() {
-        return Comparator.comparingInt(warp -> warp.getVotesIn(sortingTime.getTimeMillis()));
+        return Comparator.<Warp>comparingInt(warp -> warp.getVotesIn(sortingTime.getTimeMillis())).reversed();
     }
 }

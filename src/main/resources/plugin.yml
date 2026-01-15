@@ -6,6 +6,3 @@ prefix: Warps
 depend: [ Vault, MSLands , Core, zMenu ]
 authors: [ Iban ]
 description: Warps players
-
-commands:
-    marché:

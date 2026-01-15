@@ -80,6 +80,11 @@ public class Storage {
 
 						MSPlayer msPlayer = CoreBukkitPlugin.getInstance().getPlayerManager().getOfflinePlayer(uuid);
 
+                        if(msPlayer == null) {
+                            plugin.getLogger().warning("Le profile du joueur " + uuid + "n'a pas été trouvé");
+                            continue;
+                        }
+
 						OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
 						if(isOpened && now - msPlayer.getLastSeen() > 1296000000L) {
 							plugin.getLogger().info("[Warps]" + op.getName() + " est inactif depuis plus de 15 jours, son warp a été fermé.");

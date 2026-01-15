@@ -1,6 +1,5 @@
 package fr.iban.warps;
 
-import fr.iban.warps.commands.MarketCMD;
 import fr.iban.warps.commands.PlayerWarpCMD;
 import fr.iban.warps.commands.SystemWarpCMD;
 import fr.iban.warps.commands.WarpsCMD;
@@ -70,7 +69,6 @@ public final class WarpsPlugin extends JavaPlugin {
         lamp.register(new PlayerWarpCMD(this));
         lamp.register(new WarpsCMD(this));
         lamp.register(new SystemWarpCMD(this));
-        lamp.register(new MarketCMD());
     }
 
     private <T> @Nullable T getProvider(Class<T> classProvider) {

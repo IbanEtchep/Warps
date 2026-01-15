@@ -12,8 +12,6 @@ public class CommandListeners implements Listener {
 			e.setMessage("/warp spawn");
 		}else if(e.getMessage().equalsIgnoreCase("/infos")) {
 			e.setMessage("/warp info");
-		}else if(e.getMessage().equalsIgnoreCase("/arene") || e.getMessage().equalsIgnoreCase("/arène")) {
-			e.setMessage("/warp arene");
 		}
 	}
 

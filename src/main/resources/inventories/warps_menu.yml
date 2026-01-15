@@ -1,6 +1,35 @@
 name: "&5Warps [%page%/%maxPage%]"
 size: 54
 items:
+  next:
+    type: NEXT
+    isPermanent: true
+    slot: 48
+    item:
+      material: ARROW
+      name: "&eSuivant"
+    else:
+      item:
+        material: WHITE_STAINED_GLASS_PANE
+        name: "&e"
+  previous:
+    type: PREVIOUS
+    isPermanent: true
+    slot: 46
+    item:
+      material: ARROW
+      name: "&ePrécédent"
+    else:
+      item:
+        material: WHITE_STAINED_GLASS_PANE
+        name: "&e"
+  close:
+    isPermanent: true
+    closeInventory: true
+    slot: 47
+    item:
+      material: RED_STAINED_GLASS_PANE
+      name: "&4Fermer"
   decoration:
     isPermanent: true
     item:
@@ -29,7 +58,7 @@ items:
         - "&8Tags: &7%tags%"
         - "&8J'aimes: &7%votes%"
   filter:
-    slot: 53
+    slot: 52
     type: WARP_TAG_FILTER
     item:
       material: HOPPER
@@ -40,7 +69,7 @@ items:
         - '&7➜ [CITY] Villes'
         - '&7➜ [FARM] Farms'
   liked_filter:
-    slot: 52
+    slot: 51
     type: LIKED_WARP_FILTER
     item:
       material: POPPY
@@ -49,7 +78,7 @@ items:
         - '&7➜ [FALSE] Désactivé'
         - '&7➜ [TRUE] Activé'
   sorting_time:
-    slot: 51
+    slot: 50
     type: WARP_SORTING_TIME
     item:
       material: CLOCK

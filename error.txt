@@ -1,0 +1,4 @@
+[04:59:33] [ForkJoinPool.commonPool-worker-1/WARN]: Caused by: java.lang.NullPointerException: Cannot invoke "fr.iban.common.model.MSPlayer.getLastSeen()" because "msPlayer" is null
+[04:59:33] [ForkJoinPool.commonPool-worker-1/WARN]: 	at Warps-1.0-SNAPSHOT.jar//fr.iban.warps.storage.Storage.getPlayersWarps(Storage.java:84)
+[04:59:33] [ForkJoinPool.commonPool-worker-1/WARN]: 	at Warps-1.0-SNAPSHOT.jar//fr.iban.warps.WarpsManager.lambda$future$23(WarpsManager.java:224)
+[04:59:33] [ForkJoinPool.commonPool-worker-1/WARN]: 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
