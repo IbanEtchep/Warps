@@ -9,6 +9,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +26,7 @@ public class LikedWarpsFilterButton extends Button {
     }
 
     @Override
-    public ItemStack getCustomItemStack(Player player) {
+    public ItemStack getCustomItemStack(@NonNull Player player, @NotNull Placeholders placeholders) {
         WarpMenuData warpMenuData = menuManager.getMenuData(player);
         ItemStack item = this.getItemStack().build(player, false);
         ItemMeta meta = item.getItemMeta();
