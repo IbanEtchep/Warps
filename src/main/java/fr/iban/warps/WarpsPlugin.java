@@ -11,6 +11,7 @@ import fr.iban.warps.listeners.PlayerRespawnListener;
 import fr.iban.warps.listeners.TeleportListener;
 import fr.iban.warps.model.PlayerWarp;
 import fr.iban.warps.model.Warp;
+import fr.iban.warps.placement.WarpPlacementPolicies;
 import fr.iban.warps.storage.SqlTables;
 import fr.iban.warps.utils.TagCompleter;
 import fr.iban.warps.zmenu.ZMenuManager;
@@ -33,9 +34,9 @@ public final class WarpsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        warpManager = new WarpsManager(this);
-
         PluginManager pm = Bukkit.getPluginManager();
+        warpManager = new WarpsManager(this, WarpPlacementPolicies.resolve(pm, getLogger()));
+
         pm.registerEvents(new CommandListeners(), this);
         pm.registerEvents(new TeleportListener(this), this);
         pm.registerEvents(new CoreMessageListener(warpManager), this);
