@@ -2,12 +2,10 @@ package fr.iban.warps;
 
 import fr.iban.bukkitcore.CoreBukkitPlugin;
 import fr.iban.bukkitcore.utils.SLocationUtils;
-import fr.iban.lands.LandsPlugin;
-import fr.iban.lands.enums.Action;
-import fr.iban.lands.model.land.Land;
 import fr.iban.warps.model.PlayerWarp;
 import fr.iban.warps.model.Vote;
 import fr.iban.warps.model.Warp;
+import fr.iban.warps.placement.WarpPlacementPolicy;
 import fr.iban.warps.storage.Storage;
 import fr.iban.warps.utils.WarpSyncMessage;
 import fr.iban.warps.utils.WarpTpMessage;
@@ -24,6 +22,7 @@ public class WarpsManager {
 
     private final WarpsPlugin plugin;
     private final Storage storage;
+    private final WarpPlacementPolicy placementPolicy;
     private final Map<UUID, PlayerWarp> pwarps = new HashMap<>();
     private final Map<Integer, Warp> warps = new HashMap<>();
     private final Map<UUID, UUID> warpTpWaiting = new HashMap<>();
@@ -33,8 +32,9 @@ public class WarpsManager {
     public String TP_WAITING_CHANNEL = "WarpTpWaiting";
 
 
-    public WarpsManager(WarpsPlugin plugin) {
+    public WarpsManager(WarpsPlugin plugin, WarpPlacementPolicy placementPolicy) {
         this.plugin = plugin;
+        this.placementPolicy = placementPolicy;
         this.storage = new Storage(plugin);
         loadWarps();
     }
@@ -91,8 +91,7 @@ public class WarpsManager {
 
     public void setPlayerWarp(Player player, String name, @Nullable String desc) {
         UUID uuid = player.getUniqueId();
-        Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(player.getChunk());
-        if (land.isBypassing(player, Action.SET_WARP)) {
+        if (canPlaceWarpHere(player)) {
             if (!getPlayerWarps().containsKey(uuid)) {
                 PlayerWarp warp = new PlayerWarp(-1, uuid, SLocationUtils.getSLocation(player.getLocation()), name, desc);
                 pwarps.put(uuid, warp);
@@ -101,9 +100,18 @@ public class WarpsManager {
             } else {
                 player.sendMessage("§cVous avez déjà un warp.");
             }
-        } else {
-            player.sendMessage("§cVous devez vous trouver dans un de vos claims.");
         }
+    }
+
+    /**
+     * Vérifie que le joueur peut placer son warp à sa position actuelle, et le prévient sinon.
+     */
+    public boolean canPlaceWarpHere(Player player) {
+        if (placementPolicy.canPlaceWarp(player, player.getLocation())) {
+            return true;
+        }
+        player.sendMessage(placementPolicy.denyMessage());
+        return false;
     }
 
     public void removePlayerWarp(Player player) {

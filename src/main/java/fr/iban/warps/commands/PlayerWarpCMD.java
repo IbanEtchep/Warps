@@ -1,9 +1,6 @@
 package fr.iban.warps.commands;
 
 import fr.iban.bukkitcore.utils.SLocationUtils;
-import fr.iban.lands.LandsPlugin;
-import fr.iban.lands.enums.Action;
-import fr.iban.lands.model.land.Land;
 import fr.iban.warps.WarpsManager;
 import fr.iban.warps.WarpsPlugin;
 import fr.iban.warps.model.PlayerWarp;
@@ -119,13 +116,10 @@ public class PlayerWarpCMD {
         PlayerWarp warp = manager.getPlayerWarp(player.getUniqueId());
 
         if (exist(player, warp)) {
-            Land land = LandsPlugin.getInstance().getLandRepository().getLandAt(player.getChunk());
-            if (land.isBypassing(player, Action.SET_WARP)) {
+            if (manager.canPlaceWarpHere(player)) {
                 warp.setLocation(SLocationUtils.getSLocation(player.getLocation()));
                 manager.saveWarp(warp);
                 player.sendMessage("§aPosition de votre warp redéfinie à la position où vous vous trouvez.");
-            } else {
-                player.sendMessage("§cVous devez vous trouver dans un de vos claims.");
             }
         }
     }
